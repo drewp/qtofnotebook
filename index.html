@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <title>qtof form</title>
+    <meta charset="utf-8">
+    <link href="static/bootstrap-3.2.0-dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div data-bind="if: jsonError"><div data-bind="html: jsonError"></div></div>
+    
+    <div class="container">
+      <form data-bind="with: form" method="POST" action="results">
+        <h1 data-bind="text: title"></h1>
+
+        <div data-bind="foreach: questions">
+          <div class="question">
+            <label>
+              <div data-bind="text: label"></div>
+              <div data-bind="if: $data.subhead"><p class="help-block" data-bind="text: subhead"></p></div>
+              <!-- ko if: response == 'text' -->
+              <input type="text" class="form-control" data-bind="attr: {name: field}">
+              <!-- /ko -->
+              <!-- ko if: response.select -->
+              <div data-bind="foreach: response.select">
+                <div class="radio">
+                  <label><input type="radio" data-bind="attr: {name: $parent.field}, value: $data"> <span data-bind="text: $data"></span></label>
+                </div>
+              </div>
+              <div data-bind="if: response.other">
+                <label>
+                  <input type="radio" data-bind="attr: {name: field}, value: '(other)'">
+                  Other:
+                  <input type="text" data-bind="attr: {name: field + '-other'}">
+                </label>
+              </div>
+              <!-- /ko -->
+            </label>
+
+          </div>
+        </div>
+
+        <div>
+           <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+        
+      </form>
+    </div>
+
+    <pre>
+      click in Other, set focus to text box.
+      click in other box, set radio to Other
+      
+    </pre>
+
+    <script src="static/jquery-2.0.3.min.js"></script>
+    <script src="static/bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
+    <script src="static/knockout-3.1.0.js"></script>
+    <script>
+     var model = {
+       form: ko.observable(),
+       jsonError: ko.observable()
+     };
+     jQuery.ajax({
+       url: 'form.json',
+       success: function(result) {
+         model.form(result);
+       },
+       error: function(xhr, status, err) {
+         model.jsonError(xhr.responseText);
+       }
+     });
+     ko.applyBindings(model);
+    </script>
+    
+  </body>
+</html>
