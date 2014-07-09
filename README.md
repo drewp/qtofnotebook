@@ -4,19 +4,19 @@ qtofnotebook
 Install python and virtualenv:
 http://docs.python-guide.org/en/latest/starting/install/win/
 
-In this directory, set up virtualenv once:
+In the directory with this README, set up virtualenv (do this once):
 ```
 virtualenv .
 ```
 
-Then, once, and again if the requirements ever change, run this:
+Then run this (once, and again if the requirements ever change):
 ```
-bin/pip install -r requirements.txt
+Scripts\pip install -r requirements.txt
 ```
 
-Run the server:
+Run the web server:
 ```
-bin/python formserver.py
+Scripts\python formserver.py
 ```
 
 Edit ```form.json```.
